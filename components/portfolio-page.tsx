@@ -2,9 +2,9 @@
 
 import {
   ArrowDown,
-  ArrowDownRight,
   ArrowUpRight,
   Check,
+  ChevronDown,
   Circle,
   Code2,
   Github,
@@ -13,6 +13,7 @@ import {
   MapPin,
   Menu,
   Moon,
+  Phone,
   Sun,
   X,
 } from "lucide-react";
@@ -26,12 +27,17 @@ import {
 } from "@/data/portfolio";
 
 const roles: PortfolioRole[] = ["All", "DevOps", "Business Analysis", "QA"];
+const rotatingTitles = [
+  "Aspiring DevOps Intern",
+  "Aspiring Business Analyst Intern",
+  "Aspiring QA Intern",
+] as const;
 const navigation = [
+  ["Home", "home"],
   ["About", "about"],
   ["Skills", "skills"],
   ["Projects", "projects"],
-  ["Journey", "journey"],
-  ["Experience", "experience"],
+  ["Highlights", "journey"],
   ["Contact", "contact"],
 ] as const;
 
@@ -85,6 +91,57 @@ function FadeIn({
     >
       {children}
     </motion.div>
+  );
+}
+
+function RoleTypewriter() {
+  const reduceMotion = useReducedMotion();
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [typedText, setTypedText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const currentTitle = rotatingTitles[roleIndex];
+  const displayedText = reduceMotion ? currentTitle : typedText;
+
+  useEffect(() => {
+    if (reduceMotion) {
+      const timer = window.setTimeout(
+        () => setRoleIndex((index) => (index + 1) % rotatingTitles.length),
+        2600,
+      );
+      return () => window.clearTimeout(timer);
+    }
+
+    const finishedTyping = !isDeleting && typedText === currentTitle;
+    const finishedDeleting = isDeleting && typedText.length === 0;
+    const delay = finishedTyping ? 1300 : finishedDeleting ? 300 : isDeleting ? 55 : 95;
+
+    const timer = window.setTimeout(() => {
+      if (finishedTyping) {
+        setIsDeleting(true);
+      } else if (finishedDeleting) {
+        setIsDeleting(false);
+        setRoleIndex((index) => (index + 1) % rotatingTitles.length);
+      } else if (isDeleting) {
+        setTypedText((text) => text.slice(0, -1));
+      } else {
+        setTypedText(currentTitle.slice(0, typedText.length + 1));
+      }
+    }, delay);
+
+    return () => window.clearTimeout(timer);
+  }, [currentTitle, isDeleting, reduceMotion, typedText]);
+
+  return (
+    <h2
+      aria-label={rotatingTitles.join(", ")}
+      className="mt-4 min-h-[1.4em] text-2xl font-semibold tracking-tight text-accent sm:text-3xl"
+    >
+      <span aria-hidden="true">{displayedText}</span>
+      <span
+        aria-hidden="true"
+        className="ml-1 inline-block h-[1em] w-0.5 translate-y-0.5 animate-pulse bg-accent motion-reduce:animate-none"
+      />
+    </h2>
   );
 }
 
@@ -206,80 +263,108 @@ export default function PortfolioPage() {
       <main id="main-content">
         <section
           id="home"
-          className="mx-auto grid min-h-[calc(100svh-4.25rem)] max-w-6xl items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1.25fr_0.75fr] lg:py-28"
+          className="relative mx-auto flex min-h-[calc(100svh-4.25rem)] max-w-6xl flex-col items-center justify-center px-5 py-16 text-center sm:px-8 sm:py-20"
         >
-          <div>
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent-soft px-3.5 py-2 text-sm font-medium text-accent">
+          <div className="flex w-full max-w-4xl flex-col items-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent-soft px-4 py-2 text-sm font-medium text-accent">
               <span className="relative flex size-2">
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-current opacity-30 motion-reduce:animate-none" />
                 <span className="relative inline-flex size-2 rounded-full bg-current" />
               </span>
               Open to internships
             </div>
-            <p className="mb-4 text-sm font-medium text-muted">
+            <h1 className="mt-7 text-5xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
+              Hi, I’m <span className="text-accent">Sithumini</span>
+            </h1>
+            <RoleTypewriter />
+            <p className="mt-5 max-w-2xl text-sm font-medium leading-6 text-muted sm:text-base">
               {portfolio.subtitle}
             </p>
-            <h1 className="max-w-3xl text-5xl font-semibold leading-[1.07] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
-              {portfolio.name}
-            </h1>
-            <p className="mt-5 text-lg font-medium text-accent sm:text-xl">
-              {portfolio.title}
-            </p>
-            <p className="mt-5 max-w-xl text-lg leading-8 text-muted">
+            <p className="mt-4 max-w-xl text-base leading-7 text-muted sm:text-lg">
               {portfolio.tagline}
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href={portfolio.links.cv}
-                download
-                className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90 dark:text-slate-950"
-              >
-                Download CV <ArrowDown size={16} />
-              </a>
+            <p className="mt-2 min-h-12 max-w-2xl text-sm leading-6 text-muted/90">
+              {portfolio.roleSummaries[activeRole]}
+            </p>
+            <div className="mt-5 flex flex-wrap justify-center gap-3">
               <a
                 href="#contact"
-                className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border px-5 py-2.5 text-sm font-semibold transition hover:bg-surface"
+                className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90 dark:text-slate-950"
               >
-                Contact Me <ArrowDownRight size={16} />
+                Contact Me <ArrowUpRight size={16} />
+              </a>
+              <a
+                href="#projects"
+                className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-accent/50 px-6 py-3 text-sm font-semibold text-accent transition hover:bg-accent-soft"
+              >
+                View Projects
+              </a>
+              <details className="group relative">
+                <summary className="inline-flex min-h-12 cursor-pointer list-none items-center gap-2 rounded-xl border border-border px-5 py-3 text-sm font-semibold transition hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&::-webkit-details-marker]:hidden">
+                  Download CV
+                  <ChevronDown
+                    size={16}
+                    className="transition-transform group-open:rotate-180"
+                  />
+                </summary>
+                <div className="absolute left-1/2 top-full z-30 mt-2 w-60 -translate-x-1/2 rounded-xl border border-border bg-surface p-2 text-left shadow-xl sm:left-auto sm:right-0 sm:translate-x-0">
+                  <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-muted">
+                    Choose a CV
+                  </p>
+                  {portfolio.cvs.map((cv) => (
+                    <a
+                      key={cv.role}
+                      href={cv.href}
+                      download
+                      className="block rounded-lg px-3 py-2.5 text-sm font-medium transition hover:bg-accent-soft hover:text-accent focus-visible:bg-accent-soft"
+                    >
+                      {cv.role === "Business Analysis" ? "Business Analyst" : cv.role} CV
+                    </a>
+                  ))}
+                  <p className="mt-1 border-t border-border px-3 pt-2 text-xs leading-5 text-muted">
+                    Add the PDF files to <code>public/cvs/</code>.
+                  </p>
+                </div>
+              </details>
+            </div>
+            <div className="mt-6 flex items-center gap-5">
+              <a
+                href={portfolio.links.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn profile"
+                className="text-muted transition hover:text-accent"
+              >
+                <Linkedin size={19} />
               </a>
               <a
                 href={portfolio.links.github}
                 target="_blank"
-                rel="noreferrer"
-                className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold transition hover:bg-surface"
+                rel="noopener noreferrer"
+                aria-label="GitHub profile"
+                className="text-muted transition hover:text-accent"
               >
-                <Github size={16} /> GitHub
+                <Github size={19} />
               </a>
-              <a
-                href={portfolio.links.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold transition hover:bg-surface"
-              >
-                <Linkedin size={16} /> LinkedIn
-              </a>
-            </div>
-            <div className="mt-9 flex items-center gap-2 text-sm text-muted">
-              <MapPin size={16} className="text-accent" />
-              {portfolio.location}
-              <span className="mx-1 text-border">/</span>
               <a
                 href={`mailto:${portfolio.email}`}
-                className="transition hover:text-accent"
+                aria-label="Send email"
+                className="text-muted transition hover:text-accent"
               >
-                {portfolio.email}
+                <Mail size={19} />
               </a>
+              <span className="h-4 border-l border-border" />
+              <span className="inline-flex items-center gap-1.5 text-sm text-muted">
+                <MapPin size={15} className="text-accent" />
+                {portfolio.location}
+              </span>
             </div>
-          </div>
-          <aside className="rounded-2xl border border-border bg-surface p-6 shadow-sm sm:p-8">
-            <p className="text-sm font-semibold text-accent">A little about me</p>
-            <p className="mt-3 text-base leading-7">{portfolio.roleSummaries[activeRole]}</p>
-            <div className="mt-7 border-t border-border pt-6">
+            <div className="mt-7">
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-muted">
                 Explore my interests
               </p>
               <div
-                className="mt-4 flex flex-wrap gap-2"
+                className="mt-3 flex flex-wrap justify-center gap-2"
                 role="group"
                 aria-label="Filter portfolio by role"
               >
@@ -300,7 +385,13 @@ export default function PortfolioPage() {
                 ))}
               </div>
             </div>
-          </aside>
+          </div>
+          <a
+            href="#about"
+            className="absolute bottom-7 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-xs text-muted transition hover:text-accent sm:flex"
+          >
+            Scroll down <ArrowDown size={15} />
+          </a>
         </section>
 
         <section id="about" className="border-y border-border bg-surface/50">
@@ -308,7 +399,7 @@ export default function PortfolioPage() {
             <FadeIn className="mx-auto w-full max-w-sm lg:max-w-none">
               <div className="relative aspect-square w-full max-w-sm overflow-hidden rounded-full border border-border bg-surface shadow-xl">
                 <Image
-                  src="/sithumini-ariyasena.jpg"
+                  src="/profilepicture/ProfilePicture.jpg"
                   alt="Portrait of Sithumini Ariyasena"
                   fill
                   sizes="(max-width: 1024px) 80vw, 360px"
@@ -409,7 +500,11 @@ export default function PortfolioPage() {
                             alt={`${project.name} website preview`}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                            className="object-cover object-top transition-transform duration-500 hover:scale-[1.03]"
+                            className={`object-cover transition-transform duration-500 hover:scale-[1.03] ${
+                              project.id === "jay-fit-zone"
+                                ? "[object-position:left_top]"
+                                : "object-top"
+                            }`}
                           />
                         ) : (
                           <ProjectPreviewPlaceholder
@@ -604,6 +699,12 @@ export default function PortfolioPage() {
               />
               <div className="space-y-4">
                 <a
+                  href={`tel:${portfolio.phone}`}
+                  className="flex items-center gap-3 text-sm font-medium transition hover:text-accent"
+                >
+                  <Phone size={18} className="text-accent" /> {portfolio.phone}
+                </a>
+                <a
                   href={`mailto:${portfolio.email}`}
                   className="flex items-center gap-3 text-sm font-medium transition hover:text-accent"
                 >
@@ -612,19 +713,21 @@ export default function PortfolioPage() {
                 <a
                   href={portfolio.links.linkedin}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-3 text-sm font-medium transition hover:text-accent"
                 >
-                  <Linkedin size={18} className="text-accent" /> LinkedIn
+                  <Linkedin size={18} className="text-accent" />
+                  <span>LinkedIn · sithumini-ariyasena</span>
                   <ArrowUpRight size={14} />
                 </a>
                 <a
                   href={portfolio.links.github}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-3 text-sm font-medium transition hover:text-accent"
                 >
-                  <Github size={18} className="text-accent" /> GitHub
+                  <Github size={18} className="text-accent" />
+                  <span>GitHub · SithuminiAriyasena</span>
                   <ArrowUpRight size={14} />
                 </a>
                 <p className="pt-2 text-sm text-muted">References available on request.</p>

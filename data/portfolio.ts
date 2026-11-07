@@ -92,11 +92,13 @@ const projects: PortfolioProject[] = [
     contribution:
       "I’m considering how support teams and requesters can follow an issue from submission through resolution.",
     tech: ["React", "Tailwind CSS", "Next.js", "MySQL"],
-    roles: ["Business Analysis", "QA"],
+    roles: ["Business Analysis", "QA", "DevOps"],
     relevance: {
       "Business Analysis":
         "Exploring request handling, status visibility and resolution workflows.",
       QA: "Considering functional checks for request submission and status changes.",
+      DevOps:
+        "Learning about hosting and deployment by publishing the HelpDesk Tracker project online.",
     },
     github: "https://github.com/your-username/helpdesk-tracker",
     live: "https://helpdesk-tracker.vercel.app",
@@ -126,12 +128,17 @@ export const portfolio = {
     "Computing & Information Systems Undergraduate, Sabaragamuwa University of Sri Lanka",
   location: "Colombo, Sri Lanka",
   email: "sithuminiariyasena@gmail.com",
+  phone: "+94705067302",
   tagline: "Curious about how software is planned, tested and delivered.",
   links: {
-    linkedin: "https://www.linkedin.com/in/your-linkedin/",
-    github: "https://github.com/your-username",
-    cv: "/Sithumini-Ariyasena-CV.pdf",
+    linkedin: "https://www.linkedin.com/in/sithumini-ariyasena/",
+    github: "https://github.com/SithuminiAriyasena",
   },
+  cvs: [
+    { role: "Business Analysis", href: "/cvs/business-analyst-cv.pdf" },
+    { role: "DevOps", href: "/cvs/devops-cv.pdf" },
+    { role: "QA", href: "/cvs/qa-cv.pdf" },
+  ],
   summary:
     "I’m a BSc (Hons) Computing & Information Systems undergraduate (2024 to present, expected graduation 2028) with strong analytical, problem-solving and communication skills. I enjoy turning business needs into clear requirements and user stories, checking software quality through testing and bug reporting, and learning how DevOps, cloud and CI/CD help teams deliver reliably. I’m looking for an internship where I can learn from industry professionals and grow in one of these three areas.",
   roleSummaries: {

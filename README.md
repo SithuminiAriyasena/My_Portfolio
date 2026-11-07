@@ -18,11 +18,15 @@ npm run lint
 npm run build
 ```
 
+For a local production preview, run `npm start` after building. The build prepares the standalone server with its static assets.
+
 ## Edit portfolio content
 
 Update the typed data in [`data/portfolio.ts`](./data/portfolio.ts). It contains the profile, links, summary, skills, projects, learning journey, experience, education and community activities. The page and layout read from that file; ordinary content edits should not require changes to the components.
 
-Replace the example LinkedIn, GitHub, project repository and live-demo URLs with your real links. Add your CV as `public/Sithumini-Ariyasena-CV.pdf` (or update `links.cv`). Review all sample artifact text, especially the example QA observation, before sharing the site.
+Replace the example project repository and live-demo URLs with your real links. Review all sample artifact text, especially the example QA observation, before sharing the site.
+
+The hero CV menu has separate links for each role, in this order: Business Analysis, DevOps, QA. Their PDFs are stored in `public/cvs/` as `business-analyst-cv.pdf`, `devops-cv.pdf`, and `qa-cv.pdf`.
 
 Project cards use a screenshot-gallery layout. Screenshots are stored in `public/projects/` and referenced by each project's `previewImage` in `data/portfolio.ts`. Add more screenshots to this folder and set the matching `previewImage` path (for example, `/projects/farmtrust-preview.png`) to replace a styled placeholder. NewPath is presented as a learning project and does not claim clinical validation or outcomes.
 
