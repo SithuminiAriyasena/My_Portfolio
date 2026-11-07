@@ -15,13 +15,14 @@
 
 .dark {
   color-scheme: dark;
-  --background: #242527;
-  --surface: #2d2f32;
+  --background: #292a2c;
+  --surface: #323437;
   --foreground: #f0f0f0;
   --muted: #b4b6ba;
-  --border: #414347;
+  --border: #45484d;
   --accent: #5eead4;
   --accent-soft: #303c3a;
+  background-color: var(--background);
 }
 
 @theme inline {
@@ -46,6 +47,10 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+html.dark body {
+  background-color: var(--background);
 }
 
 ::selection {
