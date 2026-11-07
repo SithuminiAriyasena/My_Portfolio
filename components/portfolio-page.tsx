@@ -321,9 +321,6 @@ export default function PortfolioPage() {
                       {cv.role === "Business Analysis" ? "Business Analyst" : cv.role} CV
                     </a>
                   ))}
-                  <p className="mt-1 border-t border-border px-3 pt-2 text-xs leading-5 text-muted">
-                    Add the PDF files to <code>public/cvs/</code>.
-                  </p>
                 </div>
               </details>
             </div>
@@ -376,7 +373,7 @@ export default function PortfolioPage() {
                     onClick={() => toggleRole(role)}
                     className={`min-h-10 rounded-full border px-4 text-sm font-medium transition ${
                       activeRole === role
-                        ? "border-accent bg-accent text-white dark:text-slate-950"
+                        ? "border-accent bg-accent text-white"
                         : "border-border text-muted hover:border-accent/50 hover:text-foreground"
                     }`}
                   >
@@ -395,7 +392,7 @@ export default function PortfolioPage() {
         </section>
 
         <section id="about" className="border-y border-border bg-surface/50">
-          <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14 lg:py-24">
+          <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14 lg:py-24">
             <FadeIn className="mx-auto w-full max-w-sm lg:max-w-none">
               <div className="relative aspect-square w-full max-w-sm overflow-hidden rounded-full border border-border bg-surface shadow-xl">
                 <Image
@@ -416,7 +413,7 @@ export default function PortfolioPage() {
                 {portfolio.quickFacts.map((fact) => (
                   <div
                     key={fact.label}
-                    className="rounded-xl border border-border bg-surface p-5"
+                    className="interactive-card rounded-xl border border-border bg-surface p-5"
                   >
                     <p className="text-xs font-semibold uppercase tracking-wide text-muted">
                       {fact.label}
@@ -429,7 +426,7 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        <section id="skills" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-24">
+        <section id="skills" className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
           <FadeIn>
             <SectionHeading
               eyebrow="Skills"
@@ -443,7 +440,7 @@ export default function PortfolioPage() {
               return (
                 <FadeIn key={group.group} delay={index * 0.025}>
                   <article
-                    className={`h-full rounded-xl border p-5 transition-colors ${
+                    className={`interactive-card h-full rounded-xl border p-5 transition-colors ${
                       relevant
                         ? "border-accent/35 bg-surface"
                         : "border-border bg-surface/50 opacity-70"
@@ -471,7 +468,7 @@ export default function PortfolioPage() {
         </section>
 
         <section id="projects" className="border-y border-border bg-surface/50">
-          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-24">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
             <FadeIn>
               <SectionHeading
                 eyebrow="Projects"
@@ -489,7 +486,7 @@ export default function PortfolioPage() {
                 return (
                   <FadeIn key={project.id} delay={index * 0.035}>
                     <article
-                      className={`group flex h-full flex-col overflow-hidden rounded-2xl border bg-surface transition-colors ${
+                      className={`interactive-card group flex h-full flex-col overflow-hidden rounded-2xl border bg-surface transition-colors ${
                         relevant ? "border-accent/35" : "border-border opacity-75"
                       }`}
                     >
@@ -577,7 +574,7 @@ export default function PortfolioPage() {
         </section>
 
         <section id="journey" className="border-y border-border bg-surface/50">
-          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-24">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
             <FadeIn>
               <SectionHeading
                 eyebrow="Learning journey"
@@ -587,7 +584,7 @@ export default function PortfolioPage() {
             <ol className="grid gap-4 md:grid-cols-2">
               {portfolio.learning.map((item, index) => (
                 <FadeIn key={item.name} delay={index * 0.03}>
-                  <li className="flex h-full gap-4 rounded-xl border border-border bg-surface p-5">
+                  <li className="interactive-card flex h-full gap-4 rounded-xl border border-border bg-surface p-5">
                     <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent">
                       {item.status === "Completed" ? (
                         <Check size={17} />
@@ -617,7 +614,7 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        <section id="experience" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-24">
+        <section id="experience" className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
           <FadeIn>
             <SectionHeading
               eyebrow="Experience & education"
@@ -626,7 +623,7 @@ export default function PortfolioPage() {
           </FadeIn>
           <div className="grid gap-5 lg:grid-cols-2">
             <FadeIn>
-              <article className="h-full rounded-2xl border border-border bg-surface p-6 sm:p-7">
+              <article className="interactive-card h-full rounded-2xl border border-border bg-surface p-6 sm:p-7">
                 <div className="flex items-start gap-4">
                   <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent">
                     <Code2 size={21} />
@@ -656,7 +653,7 @@ export default function PortfolioPage() {
                 {portfolio.education.map((item) => (
                   <article
                     key={item.institution}
-                    className="rounded-2xl border border-border bg-surface p-6"
+                    className="interactive-card rounded-2xl border border-border bg-surface p-6"
                   >
                     <p className="text-sm text-muted">{item.dates || "Education"}</p>
                     <h3 className="mt-2 font-semibold">{item.qualification}</h3>
@@ -669,7 +666,7 @@ export default function PortfolioPage() {
         </section>
 
         <section className="border-y border-border bg-surface/50">
-          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-24">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
             <FadeIn>
               <SectionHeading
                 eyebrow="Leadership & community"
@@ -679,7 +676,7 @@ export default function PortfolioPage() {
             <ul className="grid gap-3 sm:grid-cols-2">
               {portfolio.community.map((item, index) => (
                 <FadeIn key={item} delay={index * 0.025}>
-                  <li className="flex h-full items-start gap-3 rounded-xl border border-border bg-surface p-5 text-sm leading-6">
+                  <li className="interactive-card flex h-full items-start gap-3 rounded-xl border border-border bg-surface p-5 text-sm leading-6">
                     <Check size={16} className="mt-1 shrink-0 text-accent" />
                     {item}
                   </li>
@@ -689,7 +686,7 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        <section id="contact" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-24">
+        <section id="contact" className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
           <div className="max-w-2xl">
             <FadeIn>
               <SectionHeading
